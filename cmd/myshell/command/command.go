@@ -62,7 +62,7 @@ func TypeCommand(commandLine string) error {
 		}
 	}
 
-	fmt.Println(typeCommand + ": command not found")
+	fmt.Println(typeCommand + ": not found")
 	return nil
 }
 

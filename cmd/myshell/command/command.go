@@ -34,6 +34,9 @@ func EchoCommand(echo string) error {
 	if err != nil {
 		return err
 	}
+	if err := writer.Flush(); err != nil {
+		return err
+	}
 
 	return nil
 }

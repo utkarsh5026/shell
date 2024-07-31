@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
+	"path"
 	"path/filepath"
 	"strconv"
 	"strings"
@@ -65,8 +66,8 @@ func TypeCommand(commandLine string) error {
 		return nil
 	} else {
 		paths := strings.Split(os.Getenv("PATH"), ":")
-		for _, path := range paths {
-			fp := filepath.Join(path, typeCommand)
+		for _, execPath := range paths {
+			fp := filepath.Join(execPath, typeCommand)
 			if _, err := os.Stat(fp); err == nil {
 				fmt.Println(fp)
 				return nil
@@ -110,10 +111,25 @@ func PwdCommand(commandLine string) error {
 	return nil
 }
 
+// CdCommand changes the current working directory to the specified directory.
+// It prints an error message if the directory does not exist.
+//
+// Parameters:
+//   - commandLine: The full command line input as a string.
+//
+// Returns:
+//   - error: An error if the command arguments are invalid or if the directory change fails.
 func CdCommand(commandLine string) error {
 	dir, err := getCommandArguments(commandLine, CD.String())
 	if err != nil {
 		return err
+	}
+
+	dir = path.Clean(dir)
+
+	if !path.IsAbs(dir) {
+		wd, _ := os.Getwd()
+		dir = path.Join(wd, dir)
 	}
 
 	err = os.Chdir(dir)

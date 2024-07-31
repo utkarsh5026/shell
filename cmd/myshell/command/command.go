@@ -51,6 +51,7 @@ func TypeCommand(commandLine string) error {
 
 	if IsValidCommand(typeCommand) {
 		fmt.Println(typeCommand + " is a shell builtin")
+		return nil
 	} else {
 		paths := strings.Split(os.Getenv("PATH"), ":")
 		for _, path := range paths {

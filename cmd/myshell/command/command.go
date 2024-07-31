@@ -30,7 +30,7 @@ func ExitCommand(command string) error {
 func EchoCommand(echo string) error {
 	writer := bufio.NewWriter(os.Stdout)
 
-	_, err := writer.WriteString(echo)
+	_, err := writer.WriteString(echo + "\n")
 	if err != nil {
 		return err
 	}

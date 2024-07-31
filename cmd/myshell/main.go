@@ -21,6 +21,7 @@ func executeCommand(commandLine string, cmdFunctions map[command.Command]command
 		if err != nil {
 			return err
 		}
+		return nil
 	}
 
 	err := function(commandLine)

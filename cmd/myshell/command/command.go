@@ -14,7 +14,13 @@ import (
 
 type CMDFunc func(string) error
 
-// ExitCommand is a function that exits the shell with a given exit code.
+// ExitCommand exits the shell with a given exit code.
+//
+// Parameters:
+//   - command: The full command line input as a string.
+//
+// Returns:
+//   - error: An error if the command arguments are invalid or if the exit code is not a valid integer.
 func ExitCommand(command string) error {
 	exitStatus, err := getCommandArguments(command, Exit.String())
 	code, err := strconv.Atoi(exitStatus)
@@ -26,7 +32,13 @@ func ExitCommand(command string) error {
 	return nil
 }
 
-// EchoCommand is a function that writes a given string to the standard output.
+// EchoCommand writes a given string to the standard output.
+//
+// Parameters:
+//   - commandline: The full command line input as a string.
+//
+// Returns:
+//   - error: An error if the command arguments are invalid or if writing to the output fails.
 func EchoCommand(commandline string) error {
 	echo, err := getCommandArguments(commandline, Echo.String())
 	if err != nil {
@@ -48,7 +60,7 @@ func EchoCommand(commandline string) error {
 // It prints the location of the command if found, or an error message if not.
 //
 // Parameters:
-//   - commandLine: The full command line input as a string.
+//   - commandLine: The full command line input as a string (unused).
 //
 // Returns:
 //   - error: An error if the command arguments are invalid or if the command is not found.
@@ -102,6 +114,7 @@ func RunAnyCommand(commandLine string) error {
 // Returns:
 //   - error: An error if the current directory cannot be retrieved.
 func PwdCommand(commandLine string) error {
+	_ = commandLine
 	dir, err := os.Getwd()
 	if err != nil {
 		fmt.Println("Error getting current directory:", err)

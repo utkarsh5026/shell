@@ -24,7 +24,7 @@ func ReadCommands() {
 			break
 		}
 
-		_, err = fmt.Fprint(os.Stdout, text+" : command not found\n")
+		_, err = fmt.Fprint(os.Stdout, text+": command not found\n")
 		if err != nil {
 			return
 		}

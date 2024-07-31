@@ -125,17 +125,24 @@ func CdCommand(commandLine string) error {
 		return err
 	}
 
-	dir = path.Clean(dir)
+	if strings.TrimSpace(dir) == "~" {
+		dir, err = os.UserHomeDir()
+		if err != nil {
+			return err
+		}
+	} else {
+		dir = path.Clean(dir)
 
-	if !path.IsAbs(dir) {
-		wd, _ := os.Getwd()
-		dir = path.Join(wd, dir)
-	}
+		if !path.IsAbs(dir) {
+			wd, _ := os.Getwd()
+			dir = path.Join(wd, dir)
+		}
 
-	err = os.Chdir(dir)
-	if err != nil {
-		fmt.Printf("cd: %s: No such file or directory\n", dir)
-		return err
+		err = os.Chdir(dir)
+		if err != nil {
+			fmt.Printf("cd: %s: No such file or directory\n", dir)
+			return err
+		}
 	}
 	return nil
 }

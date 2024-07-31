@@ -24,6 +24,14 @@ func ReadCommands() {
 			break
 		}
 
+		if strings.Contains(text, "exit") {
+			err = ExitCommand(text)
+
+			if err != nil {
+				return
+			}
+		}
+
 		_, err = fmt.Fprint(os.Stdout, text+": command not found\n")
 		if err != nil {
 			return

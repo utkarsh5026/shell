@@ -3,6 +3,7 @@ package command
 import (
 	"bufio"
 	"errors"
+	"fmt"
 	"os"
 	"strconv"
 	"strings"
@@ -33,6 +34,24 @@ func EchoCommand(commandline string) error {
 	}
 	if err := writer.Flush(); err != nil {
 		return err
+	}
+
+	return nil
+}
+
+func TypeCommand(commandLine string) error {
+	typeCommand, err := getCommandArguments(commandLine, Type.String())
+	if err != nil {
+		return err
+	}
+
+	typeCommand = strings.TrimSpace(typeCommand)
+	typeCommand = strings.ToLower(typeCommand)
+
+	if IsValidCommand(typeCommand) {
+		fmt.Println(typeCommand + " is a shell builtin")
+	} else {
+		fmt.Println(typeCommand + ": not found")
 	}
 
 	return nil

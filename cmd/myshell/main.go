@@ -28,6 +28,12 @@ func executeCommand(commandLine string) error {
 			return err
 		}
 
+	case command.Type.String():
+		err := command.TypeCommand(commandLine)
+		if err != nil {
+			return err
+		}
+
 	default:
 		_, err := fmt.Fprint(os.Stdout, commandLine+": command not found\n")
 		if err != nil {

@@ -35,7 +35,7 @@ func executeCommand(commandLine string) error {
 		}
 
 	default:
-		_, err := fmt.Fprint(os.Stdout, commandLine+": command not found\n")
+		err := command.RunAnyCommand(commandLine)
 		if err != nil {
 			return err
 		}

@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"strconv"
 	"strings"
@@ -40,6 +41,14 @@ func EchoCommand(commandline string) error {
 	return nil
 }
 
+// TypeCommand checks if a given command is a shell builtin or an executable in the system's PATH.
+// It prints the location of the command if found, or an error message if not.
+//
+// Parameters:
+//   - commandLine: The full command line input as a string.
+//
+// Returns:
+//   - error: An error if the command arguments are invalid or if the command is not found.
 func TypeCommand(commandLine string) error {
 	typeCommand, err := getCommandArguments(commandLine, Type.String())
 	if err != nil {
@@ -64,6 +73,24 @@ func TypeCommand(commandLine string) error {
 	}
 
 	fmt.Println(typeCommand + ": not found")
+	return nil
+}
+
+func RunAnyCommand(commandLine string) error {
+	commandLine = strings.TrimSpace(commandLine)
+	parts := strings.Split(commandLine, " ")
+	cmd := parts[0]
+
+	command := exec.Command(cmd, parts[1:]...)
+	command.Stderr = os.Stderr
+	command.Stdout = os.Stdout
+
+	err := command.Run()
+	if err != nil {
+		fmt.Printf("%s: command not found\n", cmd)
+		return err
+	}
+
 	return nil
 }
 

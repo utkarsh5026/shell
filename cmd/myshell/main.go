@@ -3,22 +3,36 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"strings"
 
 	"os"
 )
 
+func ReadCommands() {
+	reader := bufio.NewReader(os.Stdin)
+
+	for {
+		fmt.Print("$ ")
+		text, err := reader.ReadString('\n')
+		if err != nil {
+			fmt.Println("Error reading input:", err)
+			return
+		}
+		text = strings.TrimSpace(text)
+
+		if text == "" {
+			break
+		}
+
+		_, err = fmt.Fprint(os.Stdout, text+" : command not found\n")
+		if err != nil {
+			return
+		}
+	}
+
+}
+
 func main() {
-	// Uncomment this block to pass the first stage
-	_, err2 := fmt.Fprint(os.Stdout, "$ ")
-	if err2 != nil {
-		return
-	}
-
 	// Wait for user input
-	input, err := bufio.NewReader(os.Stdin).ReadString('\n')
-	if err != nil {
-		return
-	}
-
-	fmt.Fprint(os.Stdout, input[:len(input)-1]+": command not found\n")
+	ReadCommands()
 }

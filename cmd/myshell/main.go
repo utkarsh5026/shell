@@ -34,6 +34,12 @@ func executeCommand(commandLine string) error {
 			return err
 		}
 
+	case command.PWD.String():
+		err := command.PwdCommand()
+		if err != nil {
+			return err
+		}
+
 	default:
 		err := command.RunAnyCommand(commandLine)
 		if err != nil {

@@ -94,6 +94,16 @@ func RunAnyCommand(commandLine string) error {
 	return nil
 }
 
+func PwdCommand() error {
+	dir, err := os.Getwd()
+	if err != nil {
+		fmt.Println("Error getting current directory:", err)
+		return err
+	}
+	fmt.Println(dir)
+	return nil
+}
+
 func getCommandArguments(commandline string, command string) (string, error) {
 	parts := strings.SplitN(commandline, " ", 2)
 	if len(parts) < 2 {

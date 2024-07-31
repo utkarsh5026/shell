@@ -2,13 +2,44 @@ package main
 
 import (
 	"bufio"
+	"errors"
 	"fmt"
+	"github.com/codecrafters-io/shell-starter-go/cmd/myshell/command"
 	"strings"
 
 	"os"
 )
 
-func ReadCommands() {
+func executeCommand(commandLine string) error {
+
+	commandLine = strings.TrimSpace(commandLine)
+	parts := strings.SplitN(commandLine, " ", 2)
+	cmd := strings.ToLower(parts[0])
+	rest := parts[1]
+
+	switch cmd {
+	case command.Exit.String():
+		err := command.ExitCommand(commandLine)
+		if err != nil {
+			return errors.New("exit: invalid number of arguments")
+		}
+	case command.Echo.String():
+		err := command.EchoCommand(rest)
+		if err != nil {
+			return err
+		}
+
+	default:
+		_, err := fmt.Fprint(os.Stdout, commandLine+": command not found\n")
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+func readCommands() {
 	reader := bufio.NewReader(os.Stdin)
 
 	for {
@@ -24,23 +55,13 @@ func ReadCommands() {
 			break
 		}
 
-		if strings.Contains(text, "exit") {
-			err = ExitCommand(text)
+		err = executeCommand(text)
 
-			if err != nil {
-				return
-			}
-		}
-
-		_, err = fmt.Fprint(os.Stdout, text+": command not found\n")
-		if err != nil {
-			return
-		}
 	}
 
 }
 
 func main() {
 	// Wait for user input
-	ReadCommands()
+	readCommands()
 }

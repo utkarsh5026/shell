@@ -1,6 +1,7 @@
-package main
+package command
 
 import (
+	"bufio"
 	"errors"
 	"os"
 	"strconv"
@@ -23,5 +24,16 @@ func ExitCommand(command string) error {
 	}
 
 	os.Exit(code)
+	return nil
+}
+
+func EchoCommand(echo string) error {
+	writer := bufio.NewWriter(os.Stdout)
+
+	_, err := writer.WriteString(echo)
+	if err != nil {
+		return err
+	}
+
 	return nil
 }

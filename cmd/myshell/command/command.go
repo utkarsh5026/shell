@@ -10,15 +10,8 @@ import (
 
 // ExitCommand is a function that exits the shell with a given exit code.
 func ExitCommand(command string) error {
-	command = strings.ToLower(command)
-	command = strings.TrimSpace(command)
-	parts := strings.Split(command, " ")
-
-	if len(parts) != 2 {
-		return errors.New("exit: invalid number of arguments")
-	}
-
-	code, err := strconv.Atoi(parts[1])
+	exitStatus, err := getCommandArguments(command, Exit.String())
+	code, err := strconv.Atoi(exitStatus)
 	if err != nil {
 		return err
 	}
@@ -27,10 +20,14 @@ func ExitCommand(command string) error {
 	return nil
 }
 
-func EchoCommand(echo string) error {
+// EchoCommand is a function that writes a given string to the standard output.
+func EchoCommand(commandline string) error {
+	echo, err := getCommandArguments(commandline, Echo.String())
+	if err != nil {
+		return err
+	}
 	writer := bufio.NewWriter(os.Stdout)
-
-	_, err := writer.WriteString(echo + "\n")
+	_, err = writer.WriteString(echo + "\n")
 	if err != nil {
 		return err
 	}
@@ -39,4 +36,16 @@ func EchoCommand(echo string) error {
 	}
 
 	return nil
+}
+
+func getCommandArguments(commandline string, command string) (string, error) {
+	parts := strings.SplitN(commandline, " ", 2)
+	if len(parts) < 2 {
+		return "", errors.New("invalid number of arguments")
+	}
+
+	if strings.ToLower(parts[0]) != strings.ToLower(command) {
+		return "", errors.New("invalid command")
+	}
+	return parts[1], nil
 }

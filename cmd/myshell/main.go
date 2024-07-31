@@ -15,7 +15,6 @@ func executeCommand(commandLine string) error {
 	commandLine = strings.TrimSpace(commandLine)
 	parts := strings.SplitN(commandLine, " ", 2)
 	cmd := strings.ToLower(parts[0])
-	rest := parts[1]
 
 	switch cmd {
 	case command.Exit.String():
@@ -24,7 +23,7 @@ func executeCommand(commandLine string) error {
 			return errors.New("exit: invalid number of arguments")
 		}
 	case command.Echo.String():
-		err := command.EchoCommand(rest)
+		err := command.EchoCommand(commandLine)
 		if err != nil {
 			return err
 		}

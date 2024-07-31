@@ -7,6 +7,7 @@ const (
 	Echo Command = "echo"
 	Type Command = "type"
 	PWD  Command = "pwd"
+	CD   Command = "cd"
 )
 
 func (c Command) String() string {
@@ -15,7 +16,7 @@ func (c Command) String() string {
 
 func IsValidCommand(command string) bool {
 	switch Command(command) {
-	case Exit, Echo, Type, PWD:
+	case Exit, Echo, Type, PWD, CD:
 		return true
 	}
 	return false

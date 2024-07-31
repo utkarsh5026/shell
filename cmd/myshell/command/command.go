@@ -11,6 +11,8 @@ import (
 	"strings"
 )
 
+type CMDFunc func(string) error
+
 // ExitCommand is a function that exits the shell with a given exit code.
 func ExitCommand(command string) error {
 	exitStatus, err := getCommandArguments(command, Exit.String())
@@ -94,13 +96,31 @@ func RunAnyCommand(commandLine string) error {
 	return nil
 }
 
-func PwdCommand() error {
+// PwdCommand prints the current working directory to the standard output.
+//
+// Returns:
+//   - error: An error if the current directory cannot be retrieved.
+func PwdCommand(commandLine string) error {
 	dir, err := os.Getwd()
 	if err != nil {
 		fmt.Println("Error getting current directory:", err)
 		return err
 	}
 	fmt.Println(dir)
+	return nil
+}
+
+func CdCommand(commandLine string) error {
+	dir, err := getCommandArguments(commandLine, CD.String())
+	if err != nil {
+		return err
+	}
+
+	err = os.Chdir(dir)
+	if err != nil {
+		fmt.Println("Error changing directory:", err)
+		return err
+	}
 	return nil
 }
 

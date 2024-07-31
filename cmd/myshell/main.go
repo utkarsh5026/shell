@@ -2,7 +2,6 @@ package main
 
 import (
 	"bufio"
-	"errors"
 	"fmt"
 	"github.com/codecrafters-io/shell-starter-go/cmd/myshell/command"
 	"strings"
@@ -10,48 +9,36 @@ import (
 	"os"
 )
 
-func executeCommand(commandLine string) error {
+func executeCommand(commandLine string, cmdFunctions map[command.Command]command.CMDFunc) error {
 
 	commandLine = strings.TrimSpace(commandLine)
 	parts := strings.SplitN(commandLine, " ", 2)
 	cmd := strings.ToLower(parts[0])
 
-	switch cmd {
-	case command.Exit.String():
-		err := command.ExitCommand(commandLine)
-		if err != nil {
-			return errors.New("exit: invalid number of arguments")
-		}
-	case command.Echo.String():
-		err := command.EchoCommand(commandLine)
-		if err != nil {
-			return err
-		}
-
-	case command.Type.String():
-		err := command.TypeCommand(commandLine)
-		if err != nil {
-			return err
-		}
-
-	case command.PWD.String():
-		err := command.PwdCommand()
-		if err != nil {
-			return err
-		}
-
-	default:
+	function, ok := cmdFunctions[command.Command(cmd)]
+	if !ok {
 		err := command.RunAnyCommand(commandLine)
 		if err != nil {
 			return err
 		}
 	}
 
+	err := function(commandLine)
+	if err != nil {
+		return err
+	}
 	return nil
 }
 
 func readCommands() {
 	reader := bufio.NewReader(os.Stdin)
+
+	cmdFunctions := make(map[command.Command]command.CMDFunc)
+	cmdFunctions[command.Exit] = command.ExitCommand
+	cmdFunctions[command.Echo] = command.EchoCommand
+	cmdFunctions[command.Type] = command.TypeCommand
+	cmdFunctions[command.PWD] = command.PwdCommand
+	cmdFunctions[command.CD] = command.CdCommand
 
 	for {
 		fmt.Print("$ ")
@@ -66,13 +53,13 @@ func readCommands() {
 			break
 		}
 
-		err = executeCommand(text)
+		err = executeCommand(text, cmdFunctions)
 
 	}
 
 }
 
 func main() {
-	// Wait for user input
+
 	readCommands()
 }

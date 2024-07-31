@@ -91,6 +91,13 @@ func TypeCommand(commandLine string) error {
 	return nil
 }
 
+// RunAnyCommand executes any command provided in the command line input.
+//
+// Parameters:
+//   - commandLine: The full command line input as a string.
+//
+// Returns:
+//   - error: An error if the command execution fails or if the command is not found.
 func RunAnyCommand(commandLine string) error {
 	commandLine = strings.TrimSpace(commandLine)
 	parts := strings.Split(commandLine, " ")

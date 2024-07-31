@@ -118,7 +118,7 @@ func CdCommand(commandLine string) error {
 
 	err = os.Chdir(dir)
 	if err != nil {
-		fmt.Println("Error changing directory:", err)
+		fmt.Printf("%s: No such file or directory\n", commandLine)
 		return err
 	}
 	return nil

@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"path/filepath"
 	"strconv"
 	"strings"
 )
@@ -51,7 +52,14 @@ func TypeCommand(commandLine string) error {
 	if IsValidCommand(typeCommand) {
 		fmt.Println(typeCommand + " is a shell builtin")
 	} else {
-		fmt.Println(typeCommand + ": not found")
+		paths := strings.Split(os.Getenv("PATH"), ":")
+		for _, path := range paths {
+			fp := filepath.Join(path, typeCommand)
+			if _, err := os.Stat(fp); err == nil {
+				fmt.Println(fp)
+				return nil
+			}
+		}
 	}
 
 	return nil

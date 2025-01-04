@@ -1,38 +1,57 @@
-# shell
-Codecrafters Command Line Project
-[![progress-banner](https://backend.codecrafters.io/progress/shell/35120eb7-e255-4ee5-a200-744469f3cfc4)](https://app.codecrafters.io/users/codecrafters-bot?r=2qF)
+# 🐚 Go Shell Implementation
 
-This is a starting point for Go solutions to the
-["Build Your Own Shell" Challenge](https://app.codecrafters.io/courses/shell/overview).
+[![Go Version](https://img.shields.io/badge/Go-1.22-blue.svg)](https://golang.org/doc/go1.22)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![CodeCrafters Progress](https://backend.codecrafters.io/progress/shell/35120eb7-e255-4ee5-a200-744469f3cfc4)](https://app.codecrafters.io/users/codecrafters-bot?r=2qF)
 
-In this challenge, you'll build your own POSIX compliant shell that's capable of
-interpreting shell commands, running external programs and builtin commands like
-cd, pwd, echo and more. Along the way, you'll learn about shell command parsing,
-REPLs, builtin commands, and more.
+A POSIX-compliant shell implementation in Go, featuring built-in commands and external program execution capabilities. This project is part of the CodeCrafters "Build Your Own Shell" challenge.
 
-**Note**: If you're viewing this repo on GitHub, head over to
-[codecrafters.io](https://codecrafters.io) to try the challenge.
+## 📚 Table of Contents
 
-# Passing the first stage
+- [🐚 Go Shell Implementation](#-go-shell-implementation)
+  - [📚 Table of Contents](#-table-of-contents)
+  - [✨ Features](#-features)
+  - [🚀 Installation](#-installation)
+    - [Prerequisites](#prerequisites)
+  - [📋 Built-in Commands](#-built-in-commands)
+  - [🔮 Future Prospects](#-future-prospects)
+  - [🙏 Big Thanks To](#-big-thanks-to)
 
-The entry point for your `shell` implementation is in `cmd/myshell/main.go`.
-Study and uncomment the relevant code, and push your changes to pass the first
-stage:
+## ✨ Features
 
-```sh
-git add .
-git commit -m "pass 1st stage" # any msg
-git push origin master
-```
+- Interactive command-line interface
+- Built-in command support
+- External program execution
+- Path resolution
+- Home directory expansion
+- Error handling and status reporting
 
-Time to move on to the next stage!
+## 🚀 Installation
 
-# Stage 2 & beyond
+### Prerequisites
 
-Note: This section is for stages 2 and beyond.
+- Go 1.22 or higher
+- Git
 
-1. Ensure you have `go (1.19)` installed locally
-1. Run `./your_program.sh` to run your program, which is implemented in
-   `cmd/myshell/main.go`.
-1. Commit your changes and run `git push origin master` to submit your solution
-   to CodeCrafters. Test output will be streamed to your terminal.
+## 📋 Built-in Commands
+
+| Command            | Description                     | Example            |
+| ------------------ | ------------------------------- | ------------------ |
+| `exit [code]`    | Exit the shell with status code | `exit 0`         |
+| `echo [text]`    | Display text to stdout          | `echo Hello`     |
+| `type [command]` | Show command type               | `type echo`      |
+| `pwd`            | Print working directory         | `pwd`            |
+| `cd [directory]` | Change directory                | `cd ~/Documents` |
+
+## 🔮 Future Prospects
+
+- [ ] Command history and search
+- [ ] Tab completion with smart suggestions
+- [ ] Pipeline support (`|`, `>`, `>>`)
+- [ ] Background process handling (`&`)
+- [ ] Signal handling (`Ctrl+C`, `Ctrl+Z`)
+
+
+## 🙏 Big Thanks To
+
+- The awesome folks at [Codecrafters](https://codecrafters.io/)
